@@ -80,27 +80,21 @@ interface AppState {
 const PATIENTS: Patient[] = [
   {
     id: 'A',
-    name: 'Sarah Johnson',
-    description: 'MG screening · prior study available',
+    name: 'Study A',
+    description: 'Mammography screening · Active: MG · 1 prior MG study',
     data: { ModalitiesInStudy: ['MG'], numberOfDisplaySetsWithImages: 4, hasPrior: true },
   },
   {
     id: 'B',
-    name: 'James Lee',
-    description: 'CT chest · no prior',
-    data: { ModalitiesInStudy: ['CT'], numberOfDisplaySetsWithImages: 5, hasPrior: false },
+    name: 'Study B',
+    description: 'Chest CT · Active: CT · 1 prior CT study',
+    data: { ModalitiesInStudy: ['CT'], numberOfDisplaySetsWithImages: 5, hasPrior: true },
   },
   {
     id: 'C',
-    name: 'Emma Wilson',
-    description: 'MG single view · no prior',
-    data: { ModalitiesInStudy: ['MG'], numberOfDisplaySetsWithImages: 1, hasPrior: false },
-  },
-  {
-    id: 'D',
-    name: 'Robert Kim',
-    description: 'MG full study · no prior',
-    data: { ModalitiesInStudy: ['MG'], numberOfDisplaySetsWithImages: 4, hasPrior: false },
+    name: 'Study C',
+    description: 'Brain MRI · Active: MRI · no priors',
+    data: { ModalitiesInStudy: ['MRI'], numberOfDisplaySetsWithImages: 2, hasPrior: false },
   },
 ]
 
@@ -400,7 +394,7 @@ export default function App() {
 
           {/* Patient selector */}
           <div className="panel">
-            <div className="panel-label">Patient</div>
+            <div className="panel-label">Study</div>
             <div className="patient-list">
               {PATIENTS.map((p) => (
                 <button
@@ -410,7 +404,7 @@ export default function App() {
                 >
                   <div className={`patient-avatar av-${p.id}`}>{p.id}</div>
                   <div className="patient-info">
-                    <div className="patient-name">Patient {p.id} — {p.name}</div>
+                    <div className="patient-name">{p.name}</div>
                     <div className="patient-desc">{p.description}</div>
                   </div>
                   <div className={`patient-radio ${selectedId === p.id ? 'radio-on' : ''}`} />
