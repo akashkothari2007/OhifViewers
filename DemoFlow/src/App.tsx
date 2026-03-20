@@ -87,8 +87,8 @@ const PATIENTS: Patient[] = [
   {
     id: 'B',
     name: 'Study B',
-    description: 'Chest CT · Active: CT · 1 prior CT study',
-    data: { ModalitiesInStudy: ['CT'], numberOfDisplaySetsWithImages: 5, hasPrior: true },
+    description: 'Mammography follow-up · Active: MG · no priors',
+    data: { ModalitiesInStudy: ['MG'], numberOfDisplaySetsWithImages: 4, hasPrior: false },
   },
   {
     id: 'C',
@@ -135,19 +135,6 @@ const PROTOCOLS: Protocol[] = [
     id: 'hpScale',
     label: '@ohif/hpScale',
     description: 'Scale Images (generic fallback)',
-    rules: [
-      {
-        label: 'numberOfDisplaySetsWithImages > 0',
-        weight: 25,
-        required: false,
-        check: (d) => d.numberOfDisplaySetsWithImages > 0,
-      },
-    ],
-  },
-  {
-    id: 'hpMNGrid',
-    label: '@ohif/mnGrid',
-    description: 'Multi-Series Grid 2×2',
     rules: [
       {
         label: 'numberOfDisplaySetsWithImages > 0',
