@@ -174,17 +174,17 @@ const FLOW_STEPS: FlowStep[] = [
   { label: 'Winner Selected', sub: 'sortByScore.js · _getHighestScoringProtocol() · _setProtocol()', type: 'output' },
 ]
 
-// Timing constants (ms) — total demo ≈ 14–16s for Patient A
+// Timing constants (ms) — total demo ≈ 19–22s for Patient A (×1.35 slower)
 const T = {
-  FLOW_STEP:    800,   // delay between each flow block lighting up
-  INIT_PAUSE:  1000,   // pause at HPMatcher before first protocol
-  LOOP3:        450,   // step 3 "loop glow" duration before card slides in
-  CARD_SETTLE:  550,   // after card slides in before first rule appears
-  PENDING:      450,   // how long a rule stays yellow/pending
-  POST_RESOLVE: 550,   // after resolving a rule before the next rule appears
-  INTER_PROTO:  750,   // extra gap between protocols (on top of POST_RESOLVE)
-  PRE_WINNER:  1000,   // pause after all protocols done before winner badge
-  WINNER_TO_5: 1100,   // from winner badge to flow step 5 + result card
+  FLOW_STEP:   1080,   // delay between each flow block lighting up
+  INIT_PAUSE:  1350,   // pause at HPMatcher before first protocol
+  LOOP3:        610,   // step 3 "loop glow" duration before card slides in
+  CARD_SETTLE:  740,   // after card slides in before first rule appears
+  PENDING:      610,   // how long a rule stays yellow/pending
+  POST_RESOLVE: 740,   // after resolving a rule before the next rule appears
+  INTER_PROTO: 1000,   // extra gap between protocols (on top of POST_RESOLVE)
+  PRE_WINNER:  1350,   // pause after all protocols done before winner badge
+  WINNER_TO_5: 1500,   // from winner badge to flow step 5 + result card
 }
 
 // ── Utils ─────────────────────────────────────────────────────────────────────
@@ -375,6 +375,7 @@ export default function App() {
 
   const showPanel = state.activeFlowStep >= 4
   const hpActive = state.activeFlowStep === 4
+  const selectedPatient = PATIENTS.find((p) => p.id === selectedId)!
 
   return (
     <div className="app">
@@ -502,6 +503,29 @@ export default function App() {
                   </div>
                   {hpActive && <span className="badge-eval">● EVALUATING</span>}
                   {state.phase === 'complete' && <span className="badge-done">✓ COMPLETE</span>}
+                </div>
+
+                {/* Study metadata */}
+                <div className="study-meta">
+                  <span className="meta-label">Study Metadata</span>
+                  <div className="meta-attrs">
+                    <span className="meta-attr">
+                      <span className="meta-key">ModalitiesInStudy</span>
+                      <span className="meta-val">['{selectedPatient.data.ModalitiesInStudy.join("', '")}']</span>
+                    </span>
+                    <span className="meta-sep">·</span>
+                    <span className="meta-attr">
+                      <span className="meta-key">displaySets</span>
+                      <span className="meta-val">{selectedPatient.data.numberOfDisplaySetsWithImages}</span>
+                    </span>
+                    <span className="meta-sep">·</span>
+                    <span className="meta-attr">
+                      <span className="meta-key">hasPrior</span>
+                      <span className={`meta-val ${selectedPatient.data.hasPrior ? 'meta-true' : 'meta-false'}`}>
+                        {selectedPatient.data.hasPrior ? 'true' : 'false'}
+                      </span>
+                    </span>
+                  </div>
                 </div>
 
                 {/* Protocol cards */}
